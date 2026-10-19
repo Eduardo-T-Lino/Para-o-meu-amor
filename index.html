@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c84b68' d='M50 88C-7 46 8 12 29 12c11 0 18 7 21 18 3-11 10-18 21-18 21 0 36 34-21 76Z'/%3E%3C/svg%3E">
+    <title>Uma surpresa para você</title>
+</head>
+<body>
+    <header>
+        <h1>Antes de entrar...</h1>
+        <p>Responda essas duas perguntinhas para abrir sua surpresa.</p>
+    </header>
+
+    <main>
+        <form action="verificacao.html" method="get">
+            <div>
+                <label for="nome">Insira seu nome</label>
+                <input type="text" id="nome" name="nome" list="nomes-aceitos" autocomplete="name" required>
+                <datalist id="nomes-aceitos">
+                    <option value="Ana Beatriz de Oliveira Ribeiro"></option>
+                    <option value="ANA BEATRIZ DE OLIVEIRA RIBEIRO"></option>
+                    <option value="ana beatriz de oliveira ribeiro"></option>
+                </datalist>
+            </div>
+
+            <div>
+                <label for="data-especial">Informe a sua senha</label>
+                <input id="data-especial" name="data-especial" required>
+            </div>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </main>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
