@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c84b68' d='M50 88C-7 46 8 12 29 12c11 0 18 7 21 18 3-11 10-18 21-18 21 0 36 34-21 76Z'/%3E%3C/svg%3E">
+    <title>Verificação de identidade</title>
+</head>
+<body class="verification-page">
+    <header id="verification-header">
+        <h1 id="verification-title">Vamos confirmar...</h1>
+        <p id="verification-description">Responda às quatro perguntinhas para continuar.</p>
+    </header>
+
+    <main>
+        <form id="identity-form" action="principal.html" novalidate>
+            <div class="quiz-progress" aria-hidden="true">
+                <span id="question-counter">Pergunta 1 de 4</span>
+                <span class="quiz-progress-track"><span id="quiz-progress-bar"></span></span>
+            </div>
+
+            <section class="question-card" id="question-card" aria-labelledby="question-title">
+                <p class="question-kicker">Escolha uma alternativa</p>
+                <h2 id="question-title"></h2>
+                <div class="answer-options" id="answer-options" role="group" aria-labelledby="question-title"></div>
+            </section>
+
+            <p class="identity-feedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <section class="identity-success" id="identity-success" aria-labelledby="success-title" hidden>
+            <span class="success-heart" aria-hidden="true">♥</span>
+            <p class="success-kicker">Você acertou todas parabens amor!</p>
+            <h2 id="success-title">Feliz 1 ano e 1 mês de namoro, minha princesa!</h2>
+            <p>Espero que continue sendo a melhor companheira do mundo. I love u my darling!</p>
+            <a class="celebration-button" href="principal.html">Abrir sua surpresa</a>
+        </section>
+    </main>
+    <div class="confetti-container" id="confetti-container" aria-hidden="true"></div>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
