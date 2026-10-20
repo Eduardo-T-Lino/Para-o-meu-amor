@@ -19,17 +19,17 @@
     <main>
         <form action="verificacao.html" method="get">
             <div>
-                <label for="nome">Insira seu nome</label>
+                <label for="nome">
+                    <h3>Insira seu nome completo</h3>
+                </label>
                 <input type="text" id="nome" name="nome" list="nomes-aceitos" autocomplete="name" required>
-                <datalist id="nomes-aceitos">
-                    <option value="Ana Beatriz de Oliveira Ribeiro"></option>
-                    <option value="ANA BEATRIZ DE OLIVEIRA RIBEIRO"></option>
-                    <option value="ana beatriz de oliveira ribeiro"></option>
-                </datalist>
             </div>
 
             <div>
-                <label for="data-especial">Informe a sua senha</label>
+                <label for="data-especial">
+                    <h3>Informe a sua senha</h3>
+                    <p> | Dica: Data especial | EX: 00/00/0000</p>
+                </label>
                 <input id="data-especial" name="data-especial" required>
             </div>
 
