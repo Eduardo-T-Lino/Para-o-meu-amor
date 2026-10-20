@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>if (sessionStorage.getItem('ana-identidade-verificada') !== 'true') window.location.replace('verificacao.html');</script>
+    <title>Uma mensagem para você · Minha princesa</title>
+</head>
+<body class="story-page final-page">
+    <header class="story-site-header">
+        <a class="story-brand" href="principal.html">Minha princesa</a>
+        <nav aria-label="Navegação principal"><a href="principal.html">Início</a><a href="principal.html#main-context">Nossa história</a></nav>
+    </header>
+    <main class="final-message">
+        <span class="final-heart" aria-hidden="true">♡</span>
+        <section id="final-locked" aria-labelledby="final-locked-title">
+            <p class="story-eyebrow">Um último carinho</p>
+            <h1 id="final-locked-title">Ainda temos histórias para viver</h1>
+            <p>Uma mensagem especial espera por você no fim da nossa história.</p>
+            <a id="continue-chapters" class="celebration-button" href="principal.html#main-context">Continuar nossa história →</a>
+        </section>
+        <section id="final-unlocked" aria-labelledby="final-title" hidden>
+            <p class="story-eyebrow">Depois de todas essas lembranças…</p>
+            <h1 id="final-title">Agora, deixa eu te contar uma coisa</h1>
+            <p>Seis capítulos, tantas lembranças e um amor que continua crescendo. Esta mensagem é para você.</p>
+            <div id="final-placeholder" class="final-placeholder">
+                <span aria-hidden="true">♥</span>
+                <p>Sua mensagem já tem um lugar especial aqui.<br>Logo você vai poder ouvir tudo de mim.</p>
+            </div>
+            <p class="final-note">Se a música estiver tocando, pause na aba do YouTube antes de assistir.</p>
+            <video id="final-video" controls playsinline preload="metadata" hidden aria-label="Uma mensagem do Eduardo para você"></video>
+            <p id="final-video-status" role="status"></p>
+            <p class="final-note">Quando a mensagem terminar, voltamos ao início da nossa história. ♥</p>
+            <a href="principal.html">Voltar ao início</a>
+        </section>
+    </main>
+    <footer><p>Feito com amor por Eduardo Tamborelli Ferreira Lino.</p></footer>
+    <script src="config.js" defer></script>
+    <script src="experience.js" defer></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
