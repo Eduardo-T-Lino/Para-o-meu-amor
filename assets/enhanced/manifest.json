@@ -1,0 +1,113 @@
+﻿{
+    "processing":  "2x high-quality bicubic resampling; mild unsharp 0.18; lossless PNG; no generative reconstruction",
+    "photos":  [
+                   {
+                       "original":  "a gente/principal/Academia.jpg",
+                       "enhanced":  "enhanced/a gente/principal/Academia.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "31DE175ACB50C5F1CC34EB5668998D561093778281E297963EEAF655C340933A"
+                   },
+                   {
+                       "original":  "a gente/principal/Cinema.jpg",
+                       "enhanced":  "enhanced/a gente/principal/Cinema.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "974B6A26A4DE288DF5EDD92CC60615713E39E4431B9D430A3A549ACB90E78429"
+                   },
+                   {
+                       "original":  "a gente/principal/dia-dos-namorados.jpg",
+                       "enhanced":  "enhanced/a gente/principal/dia-dos-namorados.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "5A4EE98C8BBA8A20ADCACDD5CE1A8CBF63677A23AE0C7F8224660025B1A20694"
+                   },
+                   {
+                       "original":  "a gente/conheci/por-do-sol.jpg",
+                       "enhanced":  "enhanced/a gente/conheci/por-do-sol.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "436477DC87041EE8C2CCB7BBBDAA60E297B8B1B78FF371D595EEAEEE9653B5C4"
+                   },
+                   {
+                       "original":  "a gente/conheci/janta-zuada.jpg",
+                       "enhanced":  "enhanced/a gente/conheci/janta-zuada.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "8696767244646C8DE490582C23686FB0BB43CC3138D8EDA0908DD61F389B9892"
+                   },
+                   {
+                       "original":  "a gente/conheci/buque.jpg",
+                       "enhanced":  "enhanced/a gente/conheci/buque.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "AB4FB82598E4F60A55BA841C04C0EEC839B2C807C5BEF8757E3D5FEA5EB67282"
+                   },
+                   {
+                       "original":  "a gente/data-especial/dia-dos-namorados.jpg",
+                       "enhanced":  "enhanced/a gente/data-especial/dia-dos-namorados.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "5A4EE98C8BBA8A20ADCACDD5CE1A8CBF63677A23AE0C7F8224660025B1A20694"
+                   },
+                   {
+                       "original":  "a gente/porque/elevador.jpg",
+                       "enhanced":  "enhanced/a gente/porque/elevador.png",
+                       "width":  444,
+                       "height":  591,
+                       "outputWidth":  888,
+                       "outputHeight":  1182,
+                       "originalSha256":  "0AEE856BF3F3DA91E5686FC1824D79114F86A3EDD4848735745972AACFC73350"
+                   },
+                   {
+                       "original":  "a gente/porque/festa.jpg",
+                       "enhanced":  "enhanced/a gente/porque/festa.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "F189E68836B37EA043A923CFE177982AFF72BC679D8BC45E9A210F8A2F6D7334"
+                   },
+                   {
+                       "original":  "a gente/viver/Academia.jpg",
+                       "enhanced":  "enhanced/a gente/viver/Academia.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "31DE175ACB50C5F1CC34EB5668998D561093778281E297963EEAF655C340933A"
+                   },
+                   {
+                       "original":  "a gente/viver/balneario-chegando.jpg",
+                       "enhanced":  "enhanced/a gente/viver/balneario-chegando.png",
+                       "width":  512,
+                       "height":  506,
+                       "outputWidth":  1024,
+                       "outputHeight":  1012,
+                       "originalSha256":  "7A3123A9955225C7DCFAF5CD5738F26E22BE0DF4D858DBE866CF1087FFED091F"
+                   },
+                   {
+                       "original":  "a gente/viver/cascaneias.jpg",
+                       "enhanced":  "enhanced/a gente/viver/cascaneias.png",
+                       "width":  330,
+                       "height":  330,
+                       "outputWidth":  660,
+                       "outputHeight":  660,
+                       "originalSha256":  "42AA9A28F0E84ACFBC6C14890674F6927C45A208C7C07F13CF134AA21FFBB08F"
+                   }
+               ]
+}

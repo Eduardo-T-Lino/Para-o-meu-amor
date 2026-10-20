@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             {
                 text: 'O que eu mais comento sobre quando nos encontramos pela primeira vez?',
                 correct: 'A quantidade de água que você bebeu por causa do nervosismo',
-                similar: 'O tempo que você enrolou para chegar nervosismo',
+                similar: 'O tempo que você enrolou para chegar por nervosismo',
                 random: [
                     'A música que estava tocando',
                     'O lugar onde sentamos',
@@ -310,6 +310,152 @@ document.addEventListener('DOMContentLoaded', () => {
         renderQuestion();
     }
 
+    const musicPanel = document.querySelector('#music-player');
+    const musicFrame = document.querySelector('#perfect-player');
+    const musicToggle = document.querySelector('#music-toggle');
+    const musicLabel = document.querySelector('#music-label');
+    const musicCollapse = document.querySelector('#music-collapse');
+    const musicVideo = document.querySelector('#music-video');
+    if (musicPanel && musicFrame && musicToggle && musicLabel && musicCollapse && musicVideo) {
+        let musicPlayer = null;
+        let musicReady = false;
+        let musicPlaying = false;
+        let musicCollapsed = false;
+        let musicPausedByUser = sessionStorage.getItem('ana-music-paused') === 'true';
+        let waitingForMusicGesture = false;
+        const frameUrl = new URL(musicFrame.src);
+        if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+            frameUrl.searchParams.set('origin', window.location.origin);
+            musicFrame.src = frameUrl.href;
+        }
+
+        function syncMusicControl() {
+            musicToggle.setAttribute('aria-pressed', String(musicPlaying));
+            musicToggle.setAttribute('aria-label', musicPlaying ? 'Pausar Perfect' : 'Tocar Perfect');
+            musicLabel.textContent = musicPlaying ? 'Perfect tocando' : 'Tocar Perfect';
+            musicCollapse.textContent = musicCollapsed ? '+' : '\u2212';
+            musicCollapse.setAttribute('aria-expanded', String(!musicCollapsed));
+            musicCollapse.setAttribute('aria-label', musicCollapsed
+                ? 'Mostrar o player de Perfect'
+                : 'Recolher e pausar a m\u00fasica');
+            musicPanel.classList.toggle('is-collapsed', musicCollapsed);
+            musicVideo.hidden = musicCollapsed;
+        }
+
+        function stopWaitingForMusicGesture() {
+            waitingForMusicGesture = false;
+            document.removeEventListener('pointerdown', startMusicFromGesture, true);
+            document.removeEventListener('keydown', startMusicFromGesture, true);
+        }
+
+        function startMusicFromGesture(event) {
+            if (musicPanel.contains(event.target) || musicCollapsed || musicPausedByUser) return;
+            if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+            if (musicReady) musicPlayer.playVideo();
+        }
+
+        function waitForMusicGesture() {
+            if (waitingForMusicGesture || musicPausedByUser || musicCollapsed) return;
+            waitingForMusicGesture = true;
+            document.addEventListener('pointerdown', startMusicFromGesture, true);
+            document.addEventListener('keydown', startMusicFromGesture, true);
+        }
+
+        function createMusicPlayer() {
+            if (musicPlayer) return;
+            musicPlayer = new window.YT.Player('perfect-player', {
+                events: {
+                    onReady(event) {
+                        musicReady = true;
+                        musicToggle.disabled = false;
+                        event.target.setVolume(35);
+                        const savedPosition = Number(sessionStorage.getItem('ana-music-position'));
+                        if (savedPosition > 0 && savedPosition < event.target.getDuration()) {
+                            event.target.seekTo(savedPosition, true);
+                        }
+                        syncMusicControl();
+                        if (!musicPausedByUser && !musicCollapsed) event.target.playVideo();
+                        else event.target.pauseVideo();
+                    },
+                    onStateChange(event) {
+                        const wasPlaying = musicPlaying;
+                        musicPlaying = event.data === window.YT.PlayerState.PLAYING;
+                        if (musicPlaying && musicCollapsed) {
+                            event.target.pauseVideo();
+                            musicPlaying = false;
+                        }
+                        if (musicPlaying) {
+                            musicPausedByUser = false;
+                            sessionStorage.setItem('ana-music-paused', 'false');
+                            stopWaitingForMusicGesture();
+                        }
+                        if (event.data === window.YT.PlayerState.PAUSED && wasPlaying) {
+                            musicPausedByUser = true;
+                            sessionStorage.setItem('ana-music-paused', 'true');
+                            stopWaitingForMusicGesture();
+                        }
+                        syncMusicControl();
+                    },
+                    onAutoplayBlocked() {
+                        musicPlaying = false;
+                        syncMusicControl();
+                        waitForMusicGesture();
+                    },
+                    onError() {
+                        musicPlaying = false;
+                        musicToggle.disabled = true;
+                        musicLabel.textContent = 'Perfect indispon\u00edvel';
+                        const musicFallback = document.querySelector('#music-fallback');
+                        if (musicFallback) musicFallback.hidden = false;
+                        stopWaitingForMusicGesture();
+                    }
+                }
+            });
+        }
+
+        musicToggle.addEventListener('click', () => {
+            if (!musicReady) return;
+            if (musicPlaying) {
+                musicPausedByUser = true;
+                sessionStorage.setItem('ana-music-paused', 'true');
+                musicPlayer.pauseVideo();
+                stopWaitingForMusicGesture();
+            } else {
+                musicPausedByUser = false;
+                musicCollapsed = false;
+                sessionStorage.setItem('ana-music-paused', 'false');
+                syncMusicControl();
+                musicPlayer.playVideo();
+            }
+        });
+        musicCollapse.addEventListener('click', () => {
+            musicCollapsed = !musicCollapsed;
+            if (musicCollapsed) {
+                musicPausedByUser = true;
+                sessionStorage.setItem('ana-music-paused', 'true');
+                if (musicReady) musicPlayer.pauseVideo();
+                musicPlaying = false;
+                stopWaitingForMusicGesture();
+            }
+            syncMusicControl();
+        });
+        window.addEventListener('pagehide', () => {
+            if (musicReady) sessionStorage.setItem('ana-music-position', String(musicPlayer.getCurrentTime()));
+        });
+        if (window.YT?.Player) createMusicPlayer();
+        else {
+            const previousYouTubeReady = window.onYouTubeIframeAPIReady;
+            window.onYouTubeIframeAPIReady = () => {
+                previousYouTubeReady?.();
+                createMusicPlayer();
+            };
+            const api = document.createElement('script');
+            api.src = 'https://www.youtube.com/iframe_api';
+            api.async = true;
+            document.head.append(api);
+        }
+    }
+
     const hero = document.querySelector('#hero');
     if (!hero) return;
 
@@ -350,7 +496,27 @@ document.addEventListener('DOMContentLoaded', () => {
     pauseButton.className = 'carousel-pause';
     pauseButton.setAttribute('aria-label', 'Pausar troca automática de mensagens');
 
-    hero.append(previousButton, nextButton, pauseButton);
+    const pagination = document.createElement('div');
+    pagination.className = 'carousel-pagination';
+    pagination.setAttribute('role', 'group');
+    pagination.setAttribute('aria-label', 'Selecionar mensagem');
+    const slideDots = slides.map((slide, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carousel-dot';
+        dot.setAttribute('aria-label', `Ir para a mensagem ${index + 1}`);
+        const dotMark = document.createElement('span');
+        dotMark.setAttribute('aria-hidden', 'true');
+        dot.append(dotMark);
+        dot.addEventListener('click', () => goToSlide(index));
+        pagination.append(dot);
+        return dot;
+    });
+    const slideCounter = document.createElement('span');
+    slideCounter.className = 'carousel-counter';
+    slideCounter.setAttribute('aria-hidden', 'true');
+    pagination.append(slideCounter);
+    hero.append(previousButton, nextButton, pauseButton, pagination);
     hero.setAttribute('tabindex', '0');
 
     let currentSlide = 0;
@@ -362,6 +528,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSlide(index) {
         currentSlide = (index + slides.length) % slides.length;
+        slideDots.forEach((dot, dotIndex) => {
+            if (dotIndex === currentSlide) dot.setAttribute('aria-current', 'true');
+            else dot.removeAttribute('aria-current');
+        });
+        slideCounter.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
         slides.forEach((slide, slideIndex) => {
             const active = slideIndex === currentSlide;
             slide.classList.toggle('is-active', active);
@@ -475,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
             storyObserver.observe(storySection);
         }
 
-        const revealItems = document.querySelectorAll('#main-context article');
+        const revealItems = document.querySelectorAll('#main-context .story-card');
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -492,63 +663,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } else {
         document.querySelector('#main-context')?.classList.add('story-overlay', 'is-visible');
-        document.querySelectorAll('#main-context article').forEach(item => item.classList.add('is-visible'));
+        document.querySelectorAll('#main-context .story-card').forEach(item => item.classList.add('is-visible'));
     }
 
-    const storyDialog = document.querySelector('#story-dialog');
-    const storyDialogTitle = document.querySelector('#story-dialog-title');
-    const storyDialogContent = document.querySelector('#story-dialog-content');
-    const storyDialogClose = document.querySelector('.story-dialog-close');
-    let lastStoryCard = null;
-    let isClosingStory = false;
 
-    function openStory(card) {
-        if (!storyDialog || !storyDialogTitle || !storyDialogContent) return;
-        const title = card.querySelector('h3');
-        const text = card.querySelector('p');
-        if (!title || !text) return;
-
-        lastStoryCard = card;
-        storyDialogTitle.textContent = title.textContent;
-        storyDialogContent.replaceChildren(text.cloneNode(true));
-        storyDialog.showModal();
-        storyDialogClose?.focus();
-    }
-
-    function closeStory() {
-        if (!storyDialog?.open || isClosingStory) return;
-        isClosingStory = true;
-        storyDialog.classList.add('is-closing');
-    }
-
-    document.querySelectorAll('#main-context .story-card').forEach(card => {
-        card.addEventListener('click', () => openStory(card));
-        card.addEventListener('keydown', event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                openStory(card);
-            }
-        });
-    });
-
-    storyDialogClose?.addEventListener('click', closeStory);
-    storyDialog?.addEventListener('click', event => {
-        if (event.target === storyDialog) closeStory();
-    });
-    storyDialog?.addEventListener('cancel', event => {
-        event.preventDefault();
-        closeStory();
-    });
-    storyDialog?.addEventListener('animationend', event => {
-        if (event.target !== storyDialog || event.animationName !== 'story-dialog-close') return;
-        storyDialog.classList.remove('is-closing');
-        isClosingStory = false;
-        storyDialog.close();
-    });
-    storyDialog?.addEventListener('close', () => {
-        isClosingStory = false;
-        storyDialog.classList.remove('is-closing');
-        lastStoryCard?.focus();
-    });
 });
-
